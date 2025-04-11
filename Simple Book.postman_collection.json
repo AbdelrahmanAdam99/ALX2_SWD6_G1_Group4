@@ -1,0 +1,780 @@
+{
+	"info": {
+		"_postman_id": "73274d13-85d9-4334-aebd-7023ee395bb0",
+		"name": "Simple Book",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43582018"
+	},
+	"item": [
+		{
+			"name": "Books",
+			"item": [
+				{
+					"name": "Get status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has the required fields\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.status).to.exist;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Status is a non-empty string\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.status).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Status should not be empty\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Content-Type header is application/json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://simple-books-api.glitch.me/status",
+							"protocol": "https",
+							"host": [
+								"simple-books-api",
+								"glitch",
+								"me"
+							],
+							"path": [
+								"status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get books",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"\r",
+									"// Get all books (no filter)\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response is an array\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.be.an('array');\r",
+									"});\r",
+									"\r",
+									"// Filter by type = fiction \r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"All books are fiction\", function () {\r",
+									"    var books = pm.response.json();\r",
+									"    books.forEach(book => {\r",
+									"        pm.expect(book.type).to.eql('fiction');\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"// filter by avaliable = true\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"All books are available\", function () {\r",
+									"    var books = pm.response.json();\r",
+									"    books.forEach(book => {\r",
+									"        pm.expect(book.available).to.eql(true);\r",
+									"    });\r",
+									"});\r",
+									"/*\r",
+									"// filter by id = 1\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Book with id 1 exists\", function () {\r",
+									"    var books = pm.response.json();\r",
+									"    var book = books.find(book => book.id === 1);\r",
+									"    pm.expect(book).to.not.be.undefined;\r",
+									"});\r",
+									"*/\r",
+									"// Limit result (limit = 2) \r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response has max 2 books\", function () {\r",
+									"    var books = pm.response.json();\r",
+									"    pm.expect(books.length).to.be.at.most(2);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"/*\r",
+									"//Invalid Type\r",
+									"\r",
+									"pm.test(\"Status code is 400 or 200\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 400]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Empty response or error message\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.length === 0 || jsonData.error).to.be.true;\r",
+									"});\r",
+									"\r",
+									"\r",
+									"// Invalid limit (limit=abc)\r",
+									"\r",
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"// Use wrong method (POST) \r",
+									"pm.test(\"Method not allowed\", function () {\r",
+									"    pm.expect(pm.response.code).to.eql(404);\r",
+									"});\r",
+									"*/\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://simple-books-api.glitch.me/books?type=fiction&limit=2",
+							"protocol": "https",
+							"host": [
+								"simple-books-api",
+								"glitch",
+								"me"
+							],
+							"path": [
+								"books"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "fiction"
+								},
+								{
+									"key": "limit",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get single book",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"// Valid book id \r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response should contain the correct book details\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('id', 1);\r",
+									"    pm.expect(jsonData).to.have.property('name');\r",
+									"    pm.expect(jsonData).to.have.property('type');\r",
+									"    pm.expect(jsonData).to.have.property('available');\r",
+									"});\r",
+									"/*\r",
+									"// Invalid Book ID (Non-existent)\r",
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response should contain error message\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('error', 'No book with id 9999');\r",
+									"});\r",
+									"// Invalid Book ID (Negative number)\r",
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response should contain error message\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('error', 'No book with id -1');\r",
+									"});\r",
+									"*/\r",
+									"/*\r",
+									"// Invalid Book ID (Non-integer)\r",
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response should contain error message\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('error', 'No book with id NaN');\r",
+									"});\r",
+									"*/\r",
+									"/*\r",
+									"// No ID Provided\r",
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response should contain error message\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('error');\r",
+									"});\r",
+									"*/\r",
+									"// Content-Type Check\r",
+									"pm.test(\"Content-Type is application/json\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://simple-books-api.glitch.me/books/1",
+							"protocol": "https",
+							"host": [
+								"simple-books-api",
+								"glitch",
+								"me"
+							],
+							"path": [
+								"books",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "Create customer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json();\r",
+									"pm.environment.set(\"accessToken\", jsonData.accessToken);\r",
+									"// Valid Testcases : \r",
+									"// 1. Test for 201 Created + Token Present \r",
+									"pm.test(\"Status code 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"pm.test(\"Response has access token\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property(\"accessToken\");// بيتأكد إن فيه \"accessToken\" في الرد\r",
+									"});\r",
+									"/*\r",
+									"// Invalid Testcases :\r",
+									"//2.Duplicate Email - Expect 409 Conflict\r",
+									"\r",
+									"pm.test(\"Status code 409\",function(){\r",
+									"    pm.response.to.have.status(409);\r",
+									"});\r",
+									"pm.test(\"Error message is correct\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.error).to.eql(\"API client already registered. Try a different email.\");\r",
+									"});\r",
+									"*/\r",
+									"/*\r",
+									"// 3.Missing clientEmail - Expect 400 Bad Request\r",
+									"pm.test(\"Status code is 400 for missing email\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Error message is present for missing email\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property(\"error\");\r",
+									"});\r",
+									"\r",
+									"// 4. Invalid Email Format - Expect 400 Bad Request\r",
+									"\r",
+									"pm.test(\"Status code is 400 for invalid email format\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Error message is present for invalid email\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property(\"error\");\r",
+									"});\r",
+									"*/\r",
+									"/*\r",
+									"\r",
+									"// 5. Missing clientName - Expect 400 Bad Request\r",
+									"\r",
+									"pm.test(\"Status code is 400 for missing clientName\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Error message is present for missing name\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property(\"error\");\r",
+									"});\r",
+									"*/\r",
+									"/*\r",
+									"// 6.clientName is empty string\r",
+									"pm.test(\"Status 400 when clientName is empty\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Returns error message for empty clientName\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property(\"error\");\r",
+									"});\r",
+									"\r",
+									"// 7.Send empty JSON\r",
+									"pm.test(\"Status 400 for empty JSON body\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"*/\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"clientName\": \"Beshoy Tester\",\r\n    \"clientEmail\": \"2e346a5b2f31@drmail.in\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://simple-books-api.glitch.me/api-clients",
+							"protocol": "https",
+							"host": [
+								"simple-books-api",
+								"glitch",
+								"me"
+							],
+							"path": [
+								"api-clients"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "Submit order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let Order= pm.response.json();",
+									"pm.environment.set(\"orderId\",Order.orderId);",
+									"// Valid Testcases :",
+									"// 1.Successful Order Placement",
+									"pm.test(\"Status code is 201\", function () {",
+									"  pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Response has orderId\", function () {",
+									"  var jsonData = pm.response.json();",
+									"  pm.expect(jsonData).to.have.property(\"orderId\");",
+									"});",
+									"",
+									"pm.test(\"Order ID is a string\", function () {",
+									"  var jsonData = pm.response.json();",
+									"  pm.expect(jsonData.orderId).to.be.a(\"string\");",
+									"});",
+									"",
+									"// Invalid Testcases : ",
+									"/*",
+									"//2.Missing bookId",
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"pm.test(\"Response contains error message\", function () {",
+									"  var jsonData = pm.response.json();",
+									"  pm.expect(jsonData).to.have.property(\"error\");",
+									"});",
+									"",
+									"*/",
+									"/*",
+									"// 3.Missing customerName",
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"pm.test(\"Response contains error message\", function () {",
+									"  var jsonData = pm.response.json();",
+									"  pm.expect(jsonData).to.have.property(\"error\");",
+									"});",
+									"*/",
+									"/*",
+									"// 4.Invalid bookId (e.g. non-existing ID)",
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"pm.test(\"Response contains error message\", function () {",
+									"  var jsonData = pm.response.json();",
+									"  pm.expect(jsonData).to.have.property(\"error\");",
+									"});",
+									"",
+									"// 5.Invalid customerName (empty string)",
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"pm.test(\"Response contains error message\", function () {",
+									"  var jsonData = pm.response.json();",
+									"  pm.expect(jsonData).to.have.property(\"error\");",
+									"});",
+									"*/",
+									"/*",
+									"// 6.No Auth Token",
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});",
+									"pm.test(\"Response contains error message\", function () {",
+									"  var jsonData = pm.response.json();",
+									"  pm.expect(jsonData).to.have.property(\"error\");",
+									"});",
+									"*/"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"bookId\": 3,\r\n    \"customerName\": \"Beshoy Tester\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://simple-books-api.glitch.me/orders",
+							"protocol": "https",
+							"host": [
+								"simple-books-api",
+								"glitch",
+								"me"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "All orders",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test Case 1: Status Code is 200\r",
+									"pm.test('Status code is 200', function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"// Test Case 2: Response is an Array\r",
+									"pm.test(\"Response is an array\", function () {\r",
+									"    pm.expect(pm.response.json()).to.be.an(\"array\");\r",
+									"});\r",
+									"// Test Case 3: Each Order Has Required Fields\r",
+									"pm.test(\"Each order has id, bookId, customerName\", function () {\r",
+									"    const orders = pm.response.json();\r",
+									"    orders.forEach(order => {\r",
+									"        pm.expect(order).to.have.property(\"id\");\r",
+									"        pm.expect(order).to.have.property(\"bookId\");\r",
+									"        pm.expect(order).to.have.property(\"customerName\");\r",
+									"    });\r",
+									"});\r",
+									"// Test Case 4: Response Time is Acceptable (< 1s)\r",
+									"pm.test(\"Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"//Test Case 5: Content-Type is application/json\r",
+									"pm.test(\"Content-Type is application/json\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"/*\r",
+									"//Test Case 6: If Unauthorized, Returns 401 (Negative Test)\r",
+									"pm.test(\"Returns 401 if unauthorized\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"    pm.expect(pm.response.json().error).to.eql(\"Missing Authorization header.\");\r",
+									"});\r",
+									"*/"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{accessToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://simple-books-api.glitch.me/orders",
+							"protocol": "https",
+							"host": [
+								"simple-books-api",
+								"glitch",
+								"me"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//1. Status Code is 200 >>> Status response is 204 no content",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"//2. Response has updated customerName >> no data returned in body response",
+									"pm.test(\"Response has updated customerName\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.customerName).to.eql(\"Mohamed Ali\");",
+									"});",
+									"",
+									"//3. Response time is acceptable (< 1s)",
+									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+									"});",
+									"/*",
+									"//4.  Unauthorized request returns 401",
+									"pm.test(\"Unauthorized request returns 401\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});",
+									"",
+									"// 5.Invalid body format returns 400 >> status code return 204 and order updated  ",
+									"pm.test(\"Invalid body format returns 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"*/",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"customerName\":\"Mohamed Ali\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://simple-books-api.glitch.me/orders/{{orderId}}",
+							"protocol": "https",
+							"host": [
+								"simple-books-api",
+								"glitch",
+								"me"
+							],
+							"path": [
+								"orders",
+								"{{orderId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 1.Delete an order with valid orderId\r",
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response body is empty\", function () {\r",
+									"    pm.expect(pm.response.text()).to.eql(\"\");\r",
+									"});\r",
+									"/*\r",
+									"//2.Delete a non-existing order\r",
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Error message is returned\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.error).to.include(\"No order with id\"); // or specific message\r",
+									"});\r",
+									"*/\r",
+									"/*\r",
+									"//3.Delete order without token\r",
+									"pm.test(\"Status code is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Unauthorized error message\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.error).to.include(\"Missing Authorization header.\"); // depends on API response\r",
+									"});\r",
+									"*/\r",
+									"//4.Delete the same order twice\r",
+									"pm.test(\"Status code is 404 for already deleted order\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"packages": {},
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://simple-books-api.glitch.me/orders/{{orderId}}",
+							"protocol": "https",
+							"host": [
+								"simple-books-api",
+								"glitch",
+								"me"
+							],
+							"path": [
+								"orders",
+								"{{orderId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "accessToken",
+			"value": "",
+			"type": "default"
+		}
+	]
+}
