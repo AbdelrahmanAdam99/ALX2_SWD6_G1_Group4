@@ -11,9 +11,19 @@ import org.testng.annotations.Test;
 import java.time.Duration;
 
 
+
+
+
+
 public class addProducts {
     // Creating a WebDriver instance using Chrome
     WebDriver driver = new ChromeDriver();
+
+
+
+
+
+
 
     // This method runs before the test starts, opens the browser and navigates to the website
     @BeforeTest
@@ -21,6 +31,11 @@ public class addProducts {
     {
         driver.get("https://demoblaze.com");
     }
+
+
+
+
+
 
     // Main test case to add products to the cart and verify the total price
     @Test
@@ -173,8 +188,13 @@ public class addProducts {
         WebElement homePageElement2 = driver.findElement(By.xpath("//*[text() = 'Home ']"));
         homePageElement2.click();
 
-        Thread.sleep(1000);
     }
+
+
+
+
+
+
 
     // This method runs after the test and closes the browser
     @AfterTest

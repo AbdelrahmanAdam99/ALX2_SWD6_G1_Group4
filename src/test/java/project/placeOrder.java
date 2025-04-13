@@ -27,13 +27,21 @@ public class placeOrder {
     @Test
     public void testcase() throws InterruptedException {
 
+        String[] orderData = {
+                                "ahmed mahmoud",   //Name
+                                "USA",             //Country
+                                "Florida",         //City
+                                "1234568796425842",//Credit card
+                                "April",           //Month
+                                "2025"             //Year
+                                };
         // ----- Add product from Phones -----
         // Find 'Phones' page and click
         WebElement phonesPageElement = driver.findElement(By.xpath("//*[text() = 'Phones']"));
         phonesPageElement.click();
 
         // Wait until the product appears
-        WebDriverWait wait0 = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait wait0 = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait0.until(d->driver.findElement(By.xpath("//*[@class='hrefch' and text() = 'Nokia lumia 1520']")).isDisplayed());
 
         // Select the product
@@ -116,10 +124,11 @@ public class placeOrder {
         //Waits for card page to appear
         WebDriverWait wait7 = new WebDriverWait(driver,Duration.ofSeconds(5));
         wait7.until(ds->driver.findElement(By.id("orderModalLabel"))).isDisplayed();
-        Thread.sleep(1000);// Wait for price update
+        Thread.sleep(2000);// Wait for price update
 
         // Gets total price from cart
-        int totalOrderBeforeDelete = Integer.parseInt(driver.findElement(By.id("totalp")).getText());
+        String ee = driver.findElement(By.id("totalp")).getText();
+        int totalOrderBeforeDelete = Integer.parseInt(ee);
 
         // compare total price from card to product prices before delete a product
         if(totalOrderBeforeDelete != (phoneProductPrice+monitorProductPrice))
@@ -134,8 +143,8 @@ public class placeOrder {
 
         // Wait for card page appear again
         WebDriverWait wait8 = new WebDriverWait(driver,Duration.ofSeconds(5));
-        wait8.until(ds->driver.findElement(By.id("orderModalLabel"))).isDisplayed();
-        Thread.sleep(2000);// Wait for total to update
+        wait8.until(dd->driver.findElement(By.id("totalp")).isDisplayed());
+        Thread.sleep(3000);
 
         // Gets total price from cart after delete the product
         int totalOrderAfterDelete = Integer.parseInt(driver.findElement(By.id("totalp")).getText());
@@ -167,38 +176,37 @@ public class placeOrder {
 
 
         // ----- Fill in the form details -----
-        driver.findElement(By.id("name")).sendKeys("Ahmedmohamed");
-        driver.findElement(By.id("country")).sendKeys("USA");
-        driver.findElement(By.id("city")).sendKeys("Florida");
-        driver.findElement(By.id("card")).sendKeys("1234568796425842");
-        driver.findElement(By.id("month")).sendKeys("April");
-        driver.findElement(By.id("year")).sendKeys("2025");
+        driver.findElement(By.id("name")).sendKeys(orderData[0]);
+        driver.findElement(By.id("country")).sendKeys(orderData[1]);
+        driver.findElement(By.id("city")).sendKeys(orderData[2]);
+        driver.findElement(By.id("card")).sendKeys(orderData[3]);
+        driver.findElement(By.id("month")).sendKeys(orderData[4]);
+        driver.findElement(By.id("year")).sendKeys(orderData[5]);
         driver.findElement(By.xpath("//*[text() = 'Purchase']")).click();
 
         try {
+            Alert alert3 = wait1.until(ExpectedConditions.alertIsPresent());
+            Assert.fail("test failed : " +alert3.getText()); // Fail if not visible
+        }catch (TimeoutException e)
+        {
             // Wait for confirmation
             WebDriverWait wait10 = new WebDriverWait(driver,Duration.ofSeconds(5));
             wait10.until(dd->driver.findElement(By.xpath("//*[text() = 'Thank you for your purchase!']")).isDisplayed());
-        }catch (TimeoutException e)
-        {
-            Assert.fail("test failed : order not placed"); // Fail if not visible
         }
         // Log success and Print order summary
         System.out.println("The order has been confermed with details ");
         System.out.println(driver.findElement(By.xpath("//*[@class = 'lead text-muted ']")).getText());
 
-        driver.findElement(By.xpath("//*[text() = 'OK']")).click();// Click OK
+        driver.findElement(By.xpath("//*[@class = 'confirm btn btn-lg btn-primary' and text() = 'OK']")).click();// Click OK
 
-        //click on 'cancel' button
-        List <WebElement> closeElements = driver.findElements(By.xpath("//*[@class = 'btn btn-secondary' and text() = 'Close']"));
-        closeElements.get(2).click();
-        Thread.sleep(1000);
+
+        Thread.sleep(3000);
     }
 
     // This method runs after the test and closes the browser
     @AfterTest
     public void closeBrother()
     {
-            driver.quit();// Closes all browser windows and ends session
+            driver.quit();// Closes all browser window and ends session
     }
 }

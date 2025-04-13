@@ -31,7 +31,7 @@ public class logIn {
 
         // Hardcoded login credentials
         String username = "AhmadMohamed";
-        String password = "123456789";
+        String password = "12345678910";
         // Finding elements for login functionality
         WebElement loginElement = driver.findElement(By.id("login2"));
         WebElement loginUserNameElement = driver.findElement(By.id("loginusername"));
@@ -63,6 +63,9 @@ public class logIn {
 
         } catch (TimeoutException e) {
             // Verifying welcome message
+            WebDriverWait wait2 = new WebDriverWait(driver,Duration.ofSeconds(5));
+            wait2.until(xx->driver.findElement(By.id("nameofuser")).isDisplayed());
+
             String welcomeMassage = driver.findElement(By.id("nameofuser")).getText();
             String[] afterSplit = welcomeMassage.split("Welcome ");
             // Check if welcome message matches the username
@@ -70,12 +73,11 @@ public class logIn {
                 // Fail the test if the user doesn't match
                 Assert.fail("User Name does not match.");
             }
-            else {
+            else
+            {
                 System.out.println("Test passed : Sign in successful.");
             }
         }
-        Thread.sleep(1000);
-
     }
 
     // This method runs after the test and closes the browser

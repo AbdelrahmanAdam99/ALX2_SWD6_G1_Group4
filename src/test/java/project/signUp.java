@@ -30,7 +30,7 @@ public class signUp{
     @Test
     public void testcase() throws InterruptedException {
         // Sample usernames and passwords (some valid, some invalid)
-        String[] userNames = {"","Ahmedali","monaahmad","mandomuhammad","muhamedashraf"};
+        String[] userNames = {"","Ahmedali","monaahmad","mandomuhammed","muhamedashraf"};
         String[] passwords = {"135484","","ee556945","aa3987@4$","1235842"};
 
         // Locating elements required for the sign-up process
@@ -38,6 +38,9 @@ public class signUp{
         WebElement signUpUserNameElement = driver.findElement(By.id("sign-username"));
         WebElement signUpPasswordElement = driver.findElement(By.id("sign-password"));
         List<WebElement> SignUpButtonElements = driver.findElements(By.xpath("//*[text() = 'Sign up']"));
+
+
+
 
         // click on sign up button
         signUpElement.click();
@@ -84,7 +87,6 @@ public class signUp{
         }
         Thread.sleep(1000);
     }
-
     // This method runs after the test and closes the browser
     @AfterTest
     public void closeBrother()
